@@ -1,0 +1,144 @@
+{
+  "name": "Psicoflow Marketing Automation",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "hours",
+              "hours": 9
+            }
+          ]
+        }
+      },
+      "name": "Daily Trigger",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1,
+      "position": [
+        250,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "url": "http://host.docker.internal:3003/api/marketing/expiring-trials",
+        "options": {},
+        "queryParametersUi": {
+          "parameter": [
+            {
+              "name": "days",
+              "value": "7"
+            }
+          ]
+        }
+      },
+      "name": "Get Expiring Trials",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 1,
+      "position": [
+        450,
+        200
+      ]
+    },
+    {
+      "parameters": {
+        "url": "http://host.docker.internal:3003/api/marketing/overdue-users",
+        "options": {}
+      },
+      "name": "Get Overdue Users",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 1,
+      "position": [
+        450,
+        400
+      ]
+    },
+    {
+      "parameters": {
+        "fieldToSplitOut": "data"
+      },
+      "name": "Split Expiring",
+      "type": "n8n-nodes-base.itemLists",
+      "typeVersion": 1,
+      "position": [
+        650,
+        200
+      ]
+    },
+    {
+      "parameters": {
+        "fieldToSplitOut": "data"
+      },
+      "name": "Split Overdue",
+      "type": "n8n-nodes-base.itemLists",
+      "typeVersion": 1,
+      "position": [
+        400
+      ],
+      "notes": "Configure SMTP Credentials"
+    }
+  ],
+  "connections": {
+    "Daily Trigger": {
+      "main": [
+        [
+          {
+            "node": "Get Expiring Trials",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Get Overdue Users",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Expiring Trials": {
+      "main": [
+        [
+          {
+            "node": "Split Expiring",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Overdue Users": {
+      "main": [
+        [
+          {
+            "node": "Split Overdue",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Split Expiring": {
+      "main": [
+        [
+          {
+            "node": "Send Trial Email",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Split Overdue": {
+      "main": [
+        [
+          {
+            "node": "Send Overdue Email",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  }
+}

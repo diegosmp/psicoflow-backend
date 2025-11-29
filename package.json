@@ -2,8 +2,8 @@
   "name": "backend",
   "version": "1.0.0",
   "scripts": {
-    "dev": "concurrently \"yarn --cwd service-discovery dev\" \"yarn --cwd auth dev\" \"yarn --cwd core dev\"",
-    "install:all": "yarn install && yarn --cwd service-discovery install && yarn --cwd auth install && yarn --cwd core install"
+    "dev": "concurrently \"yarn --cwd service-discovery dev\" \"yarn --cwd auth dev\" \"yarn --cwd core dev\" \"yarn --cwd automation dev\"",
+    "install:all": "yarn install && yarn --cwd service-discovery install && yarn --cwd auth install && yarn --cwd core install && yarn --cwd automation install"
   },
   "main": "index.js",
   "repository": "https://github.com/diegosmp/psicoflow-backend.git",

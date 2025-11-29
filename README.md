@@ -99,6 +99,19 @@ The Core service exposes endpoints for automation workflows:
 - `GET /api/marketing/expiring-trials?days=7`: Returns users whose trial ends in X days.
 - `GET /api/marketing/overdue-users`: Returns users with overdue subscriptions.
 
+## 📧 Email Testing (Mailhog)
+
+**Mailhog** is configured to capture all emails sent by n8n.
+
+- **UI URL**: [http://localhost:8025](http://localhost:8025)
+- **SMTP Port**: `1025` (Configured automatically in n8n)
+
+### Email Flow
+1. **Automation Service** triggers n8n workflow via Webhook.
+2. **n8n** processes logic and sends email via SMTP.
+3. **Mailhog** captures the email (port 1025).
+4. Developer views email in Mailhog UI (port 8025).
+
 ## 📚 API Documentation (Swagger)
 
 Interactive API documentation is available for each service:

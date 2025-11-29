@@ -1,0 +1,32 @@
+node:internal/modules/cjs/loader:1420
+  const err = new Error(message);
+              ^
+
+Error: Cannot find module '.prisma/client/default'
+Require stack:
+- E:\Projetos\psicoflow\backend\automation\node_modules\@prisma\client\default.js
+- E:\Projetos\psicoflow\backend\automation\src\lib\prisma.ts
+- E:\Projetos\psicoflow\backend\automation\src\controllers\marketing.controller.ts
+- E:\Projetos\psicoflow\backend\automation\src\routes\marketing.routes.ts
+- E:\Projetos\psicoflow\backend\automation\src\server.ts
+    at node:internal/modules/cjs/loader:1420:15
+    at nextResolveSimple (E:\Projetos\psicoflow\backend\automation\node_modules\tsx\dist\register-D46fvsV_.cjs:4:1004)
+    at E:\Projetos\psicoflow\backend\automation\node_modules\tsx\dist\register-D46fvsV_.cjs:3:2630
+    at E:\Projetos\psicoflow\backend\automation\node_modules\tsx\dist\register-D46fvsV_.cjs:3:1542
+    at resolveTsPaths (E:\Projetos\psicoflow\backend\automation\node_modules\tsx\dist\register-D46fvsV_.cjs:4:760)
+    at E:\Projetos\psicoflow\backend\automation\node_modules\tsx\dist\register-D46fvsV_.cjs:4:1102
+    at m._resolveFilename (file:///E:/Projetos/psicoflow/backend/automation/node_modules/tsx/dist/register-B7jrtLTO.mjs:1:789)
+    at defaultResolveImpl (node:internal/modules/cjs/loader:1058:19)
+    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1063:22)
+    at Module._load (node:internal/modules/cjs/loader:1226:37) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [
+    'E:\\Projetos\\psicoflow\\backend\\automation\\node_modules\\@prisma\\client\\default.js',
+    'E:\\Projetos\\psicoflow\\backend\\automation\\src\\lib\\prisma.ts',
+    'E:\\Projetos\\psicoflow\\backend\\automation\\src\\controllers\\marketing.controller.ts',
+    'E:\\Projetos\\psicoflow\\backend\\automation\\src\\routes\\marketing.routes.ts',
+    'E:\\Projetos\\psicoflow\\backend\\automation\\src\\server.ts'
+  ]
+}
+
+Node.js v25.2.1

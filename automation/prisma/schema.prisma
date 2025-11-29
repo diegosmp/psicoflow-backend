@@ -1,0 +1,80 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  PSYCHOLOGIST
+  PATIENT
+}
+
+enum PlanType {
+  BASIC
+  INTERMEDIATE
+  COMPLETE
+}
+
+enum SubscriptionStatus {
+  TRIAL
+  ACTIVE
+  OVERDUE
+  CANCELED
+}
+
+model User {
+  id           String   @id @default(uuid())
+  email        String   @unique
+  name         String
+  password     String?
+  role         Role     // PSYCHOLOGIST | PATIENT
+  planType     PlanType? // BASIC | INTERMEDIATE | COMPLETE
+  
+  createdAt          DateTime @default(now())
+  trialEndsAt        DateTime?
+  subscriptionStatus SubscriptionStatus @default(TRIAL)
+  
+  // Relação de Hierarquia
+  psychologistId String?
+  psychologist   User?   @relation("DoctorPatient", fields: [psychologistId], references: [id])
+  patients       User[]  @relation("DoctorPatient")
+
+  messagesSent     Message[] @relation("Sender")
+  messagesReceived Message[] @relation("Receiver")
+  
+  tasks          Task[]
+  medicalRecords MedicalRecord[]
+}
+
+model Message {
+  id        String   @id @default(uuid())
+  content   String
+  createdAt DateTime @default(now())
+  senderId  String
+  receiverId String
+  sender    User     @relation("Sender", fields: [senderId], references: [id])
+  receiver  User     @relation("Receiver", fields: [receiverId], references: [id])
+}
+
+model Task {
+  id          String   @id @default(uuid())
+  title       String
+  description String?
+  completed   Boolean  @default(false)
+  createdAt   DateTime @default(now())
+  
+  patientId   String
+  patient     User     @relation(fields: [patientId], references: [id])
+}
+
+model MedicalRecord {
+  id          String   @id @default(uuid())
+  content     String
+  createdAt   DateTime @default(now())
+  
+  patientId   String
+  patient     User     @relation(fields: [patientId], references: [id])
+}
