@@ -16,7 +16,7 @@ app.register(require('@fastify/swagger'), {
       description: 'Authentication Service for Psicoflow SaaS',
       version: '1.0.0'
     },
-    host: 'localhost:3002',
+    host: process.env.SERVICE_URL ? process.env.SERVICE_URL.replace(/^https?:\/\//, '') : 'localhost:3002',
     schemes: ['http'],
     consumes: ['application/json'],
     produces: ['application/json'],
@@ -39,14 +39,16 @@ import { registerService, sendHeartbeat } from './utils/service-registration';
 
 async function start() {
   try {
+    console.log(`Starting Auth Service in ${process.env.NODE_ENV || 'development'} mode`);
+
     const port = Number(process.env.PORT) || 3002;
     const host = '0.0.0.0';
     const serviceName = 'auth';
-    const serviceUrl = `http://localhost:${port}`; // Or use container name if in docker network
-    const discoveryUrl = 'http://localhost:3001';
+    const serviceUrl = process.env.SERVICE_URL || `http://localhost:${port}`;
+    const discoveryUrl = process.env.SERVICE_DISCOVERY_URL || 'http://localhost:3001';
 
     await app.listen({ port, host });
-    console.log(`Auth Service running on port ${port}`);
+    console.log(`Auth Service running on port ${port} (${process.env.NODE_ENV})`);
 
     // Register with Service Discovery
     const serviceId = await registerService(serviceName, serviceUrl, discoveryUrl);

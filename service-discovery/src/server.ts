@@ -7,6 +7,8 @@ const app = Fastify({ logger: true });
 
 async function start() {
   try {
+    console.log(`Starting Service Discovery in ${process.env.NODE_ENV || 'development'} mode`);
+
     await app.register(require('@fastify/swagger'), {
       swagger: {
         info: {
@@ -14,7 +16,7 @@ async function start() {
           description: 'Service Discovery and API Gateway for Psicoflow SaaS',
           version: '1.0.0'
         },
-        host: 'localhost:3001',
+        host: process.env.HOST === '0.0.0.0' ? `localhost:${process.env.PORT || 3001}` : `${process.env.HOST || 'localhost'}:${process.env.PORT || 3001}`,
         schemes: ['http'],
         consumes: ['application/json'],
         produces: ['application/json'],
@@ -61,8 +63,9 @@ async function start() {
     }
 
     const port = Number(process.env.PORT) || 3001;
-    await app.listen({ port, host: '0.0.0.0' });
-    console.log(`Service Discovery running on port ${port}`);
+    const host = process.env.HOST || '0.0.0.0';
+    await app.listen({ port, host });
+    console.log(`Service Discovery running on port ${port} (${process.env.NODE_ENV})`);
   } catch (err) {
     app.log.error(err);
     process.exit(1);

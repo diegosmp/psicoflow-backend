@@ -30,7 +30,7 @@ server.register(require('@fastify/swagger'), {
       description: 'Core API for Psicoflow SaaS',
       version: '1.0.0'
     },
-    host: 'localhost:3333',
+    host: process.env.SERVICE_URL ? process.env.SERVICE_URL.replace(/^https?:\/\//, '') : 'localhost:3333',
     schemes: ['http'],
     consumes: ['application/json'],
     produces: ['application/json'],
@@ -67,14 +67,16 @@ server.ready(err => {
 
 const start = async () => {
   try {
+    console.log(`Starting Core Service in ${process.env.NODE_ENV || 'development'} mode`);
+
     const port = process.env.PORT ? parseInt(process.env.PORT) : 3000;
     const host = '0.0.0.0';
     const serviceName = 'core';
-    const serviceUrl = `http://localhost:${port}`;
-    const discoveryUrl = 'http://localhost:3001';
+    const serviceUrl = process.env.SERVICE_URL || `http://localhost:${port}`;
+    const discoveryUrl = process.env.SERVICE_DISCOVERY_URL || 'http://localhost:3001';
 
     await server.listen({ port, host });
-    console.log(`Server listening on port ${port}`);
+    console.log(`Server listening on port ${port} (${process.env.NODE_ENV})`);
 
     // Register with Service Discovery
     const { registerService, sendHeartbeat } = await import('./utils/service-registration');
