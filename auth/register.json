@@ -1,0 +1,6 @@
+{
+  "email": "json-file-test@example.com",
+  "name": "JSON File User",
+  "password": "password123",
+  "role": "PATIENT"
+}

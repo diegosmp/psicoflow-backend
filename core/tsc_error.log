@@ -1,0 +1,6 @@
+src/controllers/task.controller.ts(30,7): error TS2375: Type '{ title: string; description: string | undefined; patientId: string; }' is not assignable to type '(Without<TaskCreateInput, TaskUncheckedCreateInput> & TaskUncheckedCreateInput) | (Without<...> & TaskCreateInput)' with 'exactOptionalPropertyTypes: true'. Consider adding 'undefined' to the types of the target's properties.
+  Type '{ title: string; description: string | undefined; patientId: string; }' is not assignable to type 'Without<TaskCreateInput, TaskUncheckedCreateInput> & TaskUncheckedCreateInput' with 'exactOptionalPropertyTypes: true'. Consider adding 'undefined' to the types of the target's properties.
+    Type '{ title: string; description: string | undefined; patientId: string; }' is not assignable to type 'TaskUncheckedCreateInput' with 'exactOptionalPropertyTypes: true'. Consider adding 'undefined' to the types of the target's properties.
+      Types of property 'description' are incompatible.
+        Type 'string | undefined' is not assignable to type 'string | null'.
+          Type 'undefined' is not assignable to type 'string | null'.
