@@ -5,6 +5,7 @@ import dotenv from 'dotenv';
 import { userRoutes } from './routes/user.routes';
 import { medicalRecordRoutes } from './routes/medical-record.routes';
 import { taskRoutes } from './routes/task.routes';
+import { marketingRoutes } from './routes/marketing.routes';
 import { ChatService } from './services/chat.service';
 
 dotenv.config();
@@ -50,6 +51,7 @@ server.register(require('@fastify/swagger-ui'), {
 server.register(userRoutes, { prefix: '/api/users' });
 server.register(medicalRecordRoutes, { prefix: '/api/medical-records' });
 server.register(taskRoutes, { prefix: '/api/tasks' });
+server.register(marketingRoutes, { prefix: '/api/marketing' });
 
 server.get('/', async (request, reply) => {
   return { status: 'ok', message: 'Psicoflow API is running' };

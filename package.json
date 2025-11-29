@@ -1,0 +1,15 @@
+{
+  "name": "backend",
+  "version": "1.0.0",
+  "scripts": {
+    "dev": "concurrently \"yarn --cwd service-discovery dev\" \"yarn --cwd auth dev\" \"yarn --cwd core dev\"",
+    "install:all": "yarn install && yarn --cwd service-discovery install && yarn --cwd auth install && yarn --cwd core install"
+  },
+  "main": "index.js",
+  "repository": "https://github.com/diegosmp/psicoflow-backend.git",
+  "author": "diegosmp <diiegosmp@gmail.com>",
+  "license": "MIT",
+  "devDependencies": {
+    "concurrently": "^9.2.1"
+  }
+}

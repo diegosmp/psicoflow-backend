@@ -35,6 +35,20 @@ The backend is built using a microservices architecture with the following compo
     cd ../core && yarn install
     ```
 
+### Unified Startup
+
+You can start all services with a single command from the `backend` root:
+
+```bash
+cd backend
+yarn dev
+```
+
+This uses `concurrently` to run:
+- Service Discovery (3001)
+- Auth Service (3002)
+- Core Service (3333)
+
 ### Infrastructure Setup
 
 Start Redis, PostgreSQL, and Redis Commander using Docker Compose:
@@ -71,6 +85,20 @@ yarn dev
 ```
 *Runs on Port 3333*
 
+## 🤖 Marketing Automation (n8n)
+
+**n8n** is configured in `docker-compose.yml` and runs on port `5678`.
+
+### Accessing n8n
+- **URL**: [http://localhost:5678](http://localhost:5678)
+- **Username**: `admin`
+- **Password**: `password`
+
+### Marketing Endpoints
+The Core service exposes endpoints for automation workflows:
+- `GET /api/marketing/expiring-trials?days=7`: Returns users whose trial ends in X days.
+- `GET /api/marketing/overdue-users`: Returns users with overdue subscriptions.
+
 ## 📚 API Documentation (Swagger)
 
 Interactive API documentation is available for each service:
@@ -86,6 +114,8 @@ Interactive API documentation is available for each service:
 ### Service Discovery (`backend/service-discovery/.env`)
 ```env
 PORT=3001
+NODE_ENV=development
+HOST=0.0.0.0
 REDIS_HOST=localhost
 REDIS_PORT=6379
 GATEWAY_SERVICES="auth,core"
@@ -103,6 +133,9 @@ SERVICE_CORE_REWRITE="/api"
 ### Auth Service (`backend/auth/.env`)
 ```env
 PORT=3002
+NODE_ENV=development
+SERVICE_DISCOVERY_URL="http://localhost:3001"
+SERVICE_URL="http://localhost:3002"
 DATABASE_URL="postgresql://admin:password@localhost:5432/psisaas?schema=public"
 JWT_SECRET="supersecret"
 GOOGLE_CLIENT_ID="..."
@@ -111,6 +144,9 @@ GOOGLE_CLIENT_ID="..."
 ### Core Service (`backend/core/.env`)
 ```env
 PORT=3333
+NODE_ENV=development
+SERVICE_DISCOVERY_URL="http://localhost:3001"
+SERVICE_URL="http://localhost:3333"
 DATABASE_URL="postgresql://admin:password@localhost:5432/psisaas?schema=public"
 ```
 
