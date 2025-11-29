@@ -1,4 +1,5 @@
 import { FastifyInstance } from 'fastify';
+import '@fastify/swagger';
 import { MarketingController } from '../controllers/marketing.controller';
 
 const marketingController = new MarketingController();

@@ -21,25 +21,17 @@
       ]
     },
     {
-      "parameters": {
-        "url": "http://host.docker.internal:3003/api/marketing/expiring-trials",
-        "options": {},
-        "queryParametersUi": {
-          "parameter": [
-            {
-              "name": "days",
-              "value": "7"
-            }
-          ]
-        }
-      },
       "name": "Get Expiring Trials",
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 1,
       "position": [
         450,
         200
-      ]
+      ],
+      "parameters": {
+        "url": "http://host.docker.internal:3003/api/marketing/expiring-trials",
+        "options": {}
+      }
     },
     {
       "parameters": {
@@ -74,13 +66,44 @@
       "type": "n8n-nodes-base.itemLists",
       "typeVersion": 1,
       "position": [
-        400
+        400,
+        600
       ],
       "notes": "Configure SMTP Credentials"
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "marketing-trigger",
+        "options": {}
+      },
+      "name": "Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1,
+      "position": [
+        250,
+        500
+      ]
     }
   ],
   "connections": {
     "Daily Trigger": {
+      "main": [
+        [
+          {
+            "node": "Get Expiring Trials",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Get Overdue Users",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Webhook": {
       "main": [
         [
           {

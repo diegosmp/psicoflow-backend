@@ -80,8 +80,13 @@ export class MarketingController {
       // Assuming webhook path corresponds to workflow ID or name
       const result = await this.n8nService.triggerWorkflow(workflowId, data);
       return reply.send({ success: true, result });
-    } catch (error) {
-      return reply.status(500).send({ message: 'Failed to trigger workflow' });
+    } catch (error: any) {
+      request.log.error(error);
+      return reply.status(500).send({ 
+        message: 'Failed to trigger workflow',
+        error: error.message,
+        details: error.response?.data
+      });
     }
   }
 }
